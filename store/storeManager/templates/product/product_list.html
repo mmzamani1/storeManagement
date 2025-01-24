@@ -1,32 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Products</h2>
+
+<div class="container">
+    <h2 class="text-center my-4">Products</h2>
+
+    <div class="list-group">
+        {% for product in object_list %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4>
+                        {{ product.product_name }} - ${{ product.price }} - Stock: {{ product.stock }} in {{ product.market }} by {{ product.salesman }}
+                    </h4>
+                    <div>
+                        <a href="{% url 'product_edit' product.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'product_delete' product.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        <a href="{% url 'product_addtoorder' product.pk %}"class="btn btn-sm btn-outline-success">Add to Order</a>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h5>Orders:</h5>
+                    <ul class="list-group">
+                        {% for orderitem in additional_objects %}
+                            {% if orderitem.product == product %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ salesman.salesman_name }}
+                                    {{ orderitem.order }} - quantity : {{ orderitem.quantity }}
+                                    <div>
+                                        <a href="{% url 'orderitem_delete' orderitem.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% empty %}
+                            <li class="list-group-item">No items available</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% empty %}
+            <li class="list-group-item">No products available</li>
+        {% endfor %}
+    </div>
+</div>
 
 
-<ul>
-    {% for product in object_list %}
-        <li>
-            {{ product.product_name }} - ${{ product.price }} - Stock: {{ product.stock }} in {{ product.market }} by {{ product.salesman }}
-            <a href="{% url 'product_edit' product.pk %}">Edit</a> |
-            <a href="{% url 'product_delete' product.pk %}">Delete</a> |
-            <a href="{% url 'product_addtoorder' product.pk %}">Add to Order</a>
-            
-            <ul>
-                <a>Orders : </a>
-                <ul>
-                    {% for orderitem in additional_objects %}
-                        {% if orderitem.product == product %}
-                            <li>
-                                {{ orderitem.order }} - quantity : {{ orderitem.quantity }}
-                                <a href="{% url 'orderitem_delete' orderitem.pk %}">Delete</a>
-                            </li>
-                        {% endif %}
-                    {% empty %}
-                        <li>No orders available</li>
-                    {% endfor %}
-                </ul>
-            </ul>
-        </li>
-    {% endfor %}
-</ul>
+
+
 {% endblock %}

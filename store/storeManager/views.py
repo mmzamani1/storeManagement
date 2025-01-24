@@ -13,7 +13,22 @@ admin.site.register(Order)
 admin.site.register(OrderItem)
 
 def home(request):
-    return render(request, 'base.html')
+    
+    markets = Market.objects.all()
+    salesmen = Salesman.objects.all()
+    products = Product.objects.all()
+    customers = Customer.objects.all()
+    orders = Order.objects.all()
+    orderitems = OrderItem.objects.all()
+    
+    return render(request, 'home.html', {
+        'markets' : markets,
+        'salesmen' : salesmen,
+        'products' : products,
+        'customers' : customers,
+        'orders' : orders,
+        'orderitems' : orderitems,
+    })
 
 # Generic views for Market
 class MarketListView(ListView):

@@ -1,16 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Customers</h2>
 
-<ul>
-    {% for customer in object_list %}
-    <li>
-        {{ customer.customer_name }} of {{ customer.market }}
-        <a href="{% url 'customer_edit' customer.pk %}">Edit</a> |
-        <a href="{% url 'customer_delete' customer.pk %}">Delete</a>
-    </li>
-    {% empty %}
-        <li>No customers available</li>
-    {% endfor %}
-</ul>
+<div class="container">
+    <h2 class="text-center my-4">Customers</h2>
+    
+    <div class="list-group">
+        {% for customer in object_list %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4>
+                        {{ customer.customer_name }} of {{ customer.market }}
+                    </h4>
+                    <div>
+                        <a href="{% url 'customer_edit' customer.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'customer_delete' customer.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <li class="list-group-item">No customers available</li>
+        {% endfor %}
+    </div>
+</div>
+
+
 {% endblock %}
