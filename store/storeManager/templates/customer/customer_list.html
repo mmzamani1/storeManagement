@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Customers</h2>
+
+<ul>
+    {% for customer in object_list %}
+    <li>
+        {{ customer.customer_name }} of {{ customer.market }}
+        <a href="{% url 'customer_edit' customer.pk %}">Edit</a> |
+        <a href="{% url 'customer_delete' customer.pk %}">Delete</a>
+    </li>
+    {% empty %}
+        <li>No customers available</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Orders</h2>
+<ul>
+    {% for order in object_list %}
+        <li>
+            Order {{ order.order_id }} by {{ order.customer }} from {{order.salesman}} of {{ order.market }}
+            <a href="{% url 'order_delete' order.pk %}">Delete</a> 
+            <ul>
+                <a>Order Items : </a>
+                <ul>
+                    {% for orderitem in additional_objects %}
+                    {% if orderitem.order == order %}
+                        <li>
+                            {{ orderitem.product }} - quantity : {{ orderitem.quantity }}
+                            <a href="{% url 'orderitem_delete' orderitem.pk %}">Delete</a>
+                        </li>
+                    {% endif %}
+                {% empty %}
+                    <li>No orderItem available</li>
+                {% endfor %}
+                </ul>
+                <a>total value : ${{ order.total_value }}</a>
+            </ul>
+        </li>
+    {% empty %}
+        <li>No order available</li>
+    {% endfor %}
+</ul>
+{% endblock %}

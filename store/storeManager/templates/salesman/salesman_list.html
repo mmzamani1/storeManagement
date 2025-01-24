@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Salesmen</h2>
+<ul>
+    {% for salesman in object_list %}
+    <li>
+        {{ salesman.salesman_name }} - {{ salesman.market.market_name }}
+        <a href="{% url 'salesman_edit' salesman.pk %}">Edit</a> |
+        <a href="{% url 'salesman_delete' salesman.pk %}">Delete</a> |
+        <a href="{% url 'salesman_addproduct' salesman.pk %}">Add Products</a> |
+        <a href="{% url 'salesman_addorder' salesman.pk %}">Add Order</a>
+
+        <ul>
+            <a>products :</a>
+            <ul>
+                {% for product in additional_objects %}
+                    {% if product.salesman == salesman %}
+                        <li>
+                            {{ product.product_name }} - ${{ product.price }} - Stock: {{ product.stock }}
+                            <a href="{% url 'product_edit' product.pk %}">Edit</a> |
+                            <a href="{% url 'product_delete' product.pk %}">Delete</a>
+                        </li>
+                    {% endif %}
+                {% empty %}
+                    <li>No products available</li>
+                {% endfor %}
+            </ul>
+        </ul>
+
+        <ul>
+            <a>orders :</a>
+            <ul>
+                {% for order in additional_objects2 %}
+                    {% if order.salesman == salesman %}
+                        <li>
+                            Order {{ order.order_id }} - {{ order.customer }}
+                            <a href="{% url 'order_delete' order.pk %}">Delete</a>
+                        </li>
+                    {% endif %}
+                {% empty %}
+                    <li>No orders available</li>
+                {% endfor %}
+            </ul>
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

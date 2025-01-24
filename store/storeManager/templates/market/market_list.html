@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Markets</h2>
+<form method="get">
+    <input type="text" name="q" placeholder="Search markets">
+    <button type="submit">Search</button>
+</form>
+
+<a href="{% url 'market_add' %}">Add Market</a>
+<ul>
+    {% for market in object_list %}
+        <li>
+            {{ market.market_name }} in {{ market.location }}
+            <a href="{% url 'market_edit' market.pk %}">Edit</a> |
+            <a href="{% url 'market_delete' market.pk %}">Delete</a> |
+            <a href="{% url 'market_addsalesman' market.pk %}">Hire Salesman</a> |
+            <a href="{% url 'market_addcustomer' market.pk %}">Add Customer</a> 
+            <ul>
+                <a>salesmen : </a>
+                <ul>
+                    {% for salesman in additional_objects %}
+                        {% if salesman.market == market %}
+                            <li>
+                                {{ salesman.salesman_name }}
+                                <a href="{% url 'salesman_edit' salesman.pk %}">Edit</a> |
+                                <a href="{% url 'salesman_delete' salesman.pk %}">Delete</a>
+                            </li>
+                        {% endif %}
+                    {% empty %}
+                        <li>No salesmen available</li>
+                    {% endfor %}
+                </ul>
+            </ul>
+
+            <ul>
+                <a>customers : </a>
+                <ul>
+                    {% for customer in additional_objects2 %}
+                    {% if customer.market == market %}
+                    <li>
+                        {{ customer.customer_name }}
+                        <a href="{% url 'customer_edit' customer.pk %}">Edit</a> |
+                        <a href="{% url 'customer_delete' customer.pk %}">Delete</a>
+                    </li>
+                    {% endif %}
+                    {% empty %}
+                        <li>No customers available</li>
+                    {% endfor %}
+                </ul>
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
