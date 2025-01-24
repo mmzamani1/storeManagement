@@ -2,7 +2,6 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Market, Salesman, Product, Customer, Order, OrderItem
 from .forms import MarketForm, SalesmanForm, ProductForm, CustomerForm, OrderForm, OrderItemForm
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import admin
 from django.shortcuts import render
 
@@ -17,7 +16,7 @@ def home(request):
     return render(request, 'base.html')
 
 # Generic views for Market
-class MarketListView(LoginRequiredMixin, ListView):
+class MarketListView(ListView):
     model = Market
     template_name = 'market/market_list.html'
     context_object_name = 'markets'
@@ -36,25 +35,25 @@ class MarketListView(LoginRequiredMixin, ListView):
         
         return context
 
-class MarketCreateView(LoginRequiredMixin, CreateView):
+class MarketCreateView(CreateView):
     model = Market
     form_class = MarketForm
     template_name = 'market/market_form.html'
     success_url = reverse_lazy('market_list')
 
-class MarketUpdateView(LoginRequiredMixin, UpdateView):
+class MarketUpdateView(UpdateView):
     model = Market
     form_class = MarketForm
     template_name = 'market/market_form.html'
     success_url = reverse_lazy('market_list')
 
-class MarketDeleteView(LoginRequiredMixin, DeleteView):
+class MarketDeleteView(DeleteView):
     model = Market
     template_name = 'market/market_confirm_delete.html'
     success_url = reverse_lazy('market_list')
 
 # Salesman Views
-class SalesmanListView(LoginRequiredMixin, ListView):
+class SalesmanListView(ListView):
     model = Salesman
     template_name = 'salesman/salesman_list.html'
     context_object_name = 'salesmen'
@@ -73,7 +72,7 @@ class SalesmanListView(LoginRequiredMixin, ListView):
         
         return context
 
-class SalesmanCreateView(LoginRequiredMixin, CreateView):
+class SalesmanCreateView(CreateView):
     model = Salesman
     form_class = SalesmanForm
     template_name = 'salesman/salesman_form.html'
@@ -86,19 +85,19 @@ class SalesmanCreateView(LoginRequiredMixin, CreateView):
         
         return super().form_valid(form)
 
-class SalesmanUpdateView(LoginRequiredMixin, UpdateView):
+class SalesmanUpdateView(UpdateView):
     model = Salesman
     form_class = SalesmanForm
     template_name = 'salesman/salesman_form.html'
     success_url = reverse_lazy('market_list')
 
-class SalesmanDeleteView(LoginRequiredMixin, DeleteView):
+class SalesmanDeleteView(DeleteView):
     model = Salesman
     template_name = 'salesman/salesman_confirm_delete.html'
     success_url = reverse_lazy('market_list')
 
 # Product Views
-class ProductListView(LoginRequiredMixin, ListView):
+class ProductListView(ListView):
     model = Product
     template_name = 'product/product_list.html'
     context_object_name = 'products'
@@ -133,7 +132,7 @@ class ProductListView(LoginRequiredMixin, ListView):
         
         return super().setup(request, *args, **kwargs)
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'product/product_form.html'
@@ -149,19 +148,19 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         
         return super().form_valid(form)
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'product/product_form.html'
     success_url = reverse_lazy('product_list')
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(DeleteView):
     model = Product
     template_name = 'product/product_confirm_delete.html'
     success_url = reverse_lazy('product_list')
 
 # Customer Views
-class CustomerListView(LoginRequiredMixin, ListView):
+class CustomerListView(ListView):
     model = Customer
     template_name = 'customer/customer_list.html'
     context_object_name = 'customers'
@@ -172,7 +171,7 @@ class CustomerListView(LoginRequiredMixin, ListView):
             return Customer.objects.filter(customer_name__icontains=query)
         return Customer.objects.all()
 
-class CustomerCreateView(LoginRequiredMixin, CreateView):
+class CustomerCreateView(CreateView):
     model = Customer
     form_class = CustomerForm
     template_name = 'customer/customer_form.html'
@@ -186,19 +185,19 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
     
 
-class CustomerUpdateView(LoginRequiredMixin, UpdateView):
+class CustomerUpdateView(UpdateView):
     model = Customer
     form_class = CustomerForm
     template_name = 'customer/customer_form.html'
     success_url = reverse_lazy('customer_list')
 
-class CustomerDeleteView(LoginRequiredMixin, DeleteView):
+class CustomerDeleteView(DeleteView):
     model = Customer
     template_name = 'customer/customer_confirm_delete.html'
     success_url = reverse_lazy('customer_list')
 
 # Order Views
-class OrderListView(LoginRequiredMixin, ListView):
+class OrderListView(ListView):
     model = Order
     template_name = 'order/order_list.html'
     context_object_name = 'orders'
@@ -236,7 +235,7 @@ class OrderListView(LoginRequiredMixin, ListView):
         
         return super().setup(request, *args, **kwargs)
     
-class OrderCreateView(LoginRequiredMixin, CreateView):
+class OrderCreateView(CreateView):
     model = Order
     form_class = OrderForm
     template_name = 'order/order_form.html'
@@ -265,7 +264,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         return form
     
 
-class OrderDeleteView(LoginRequiredMixin, DeleteView):
+class OrderDeleteView(DeleteView):
     model = Order
     template_name = 'order/order_confirm_delete.html'
     success_url = reverse_lazy('order_list')
@@ -292,7 +291,7 @@ class OrderDeleteView(LoginRequiredMixin, DeleteView):
 
 # OrderItem Views
 
-class OrderItemCreateView(LoginRequiredMixin, CreateView):
+class OrderItemCreateView(CreateView):
     model = OrderItem
     form_class = OrderItemForm
     template_name = 'orderitem/orderitem_form.html'
@@ -322,7 +321,7 @@ class OrderItemCreateView(LoginRequiredMixin, CreateView):
 
         return form
     
-class OrderItemDeleteView(LoginRequiredMixin, DeleteView):
+class OrderItemDeleteView(DeleteView):
     model = OrderItem
     template_name = 'orderitem/orderitem_confirm_delete.html'
     success_url = reverse_lazy('product_list')

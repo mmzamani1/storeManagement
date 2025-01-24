@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Markets</h2>
-<form method="get">
-    <input type="text" name="q" placeholder="Search markets">
-    <button type="submit">Search</button>
-</form>
 
 <a href="{% url 'market_add' %}">Add Market</a>
 <ul>
