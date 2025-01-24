@@ -1,50 +1,65 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Markets</h2>
 
-<a href="{% url 'market_add' %}">Add Market</a>
-<ul>
-    {% for market in object_list %}
-        <li>
-            {{ market.market_name }} in {{ market.location }}
-            <a href="{% url 'market_edit' market.pk %}">Edit</a> |
-            <a href="{% url 'market_delete' market.pk %}">Delete</a> |
-            <a href="{% url 'market_addsalesman' market.pk %}">Hire Salesman</a> |
-            <a href="{% url 'market_addcustomer' market.pk %}">Add Customer</a> 
-            <ul>
-                <a>salesmen : </a>
-                <ul>
-                    {% for salesman in additional_objects %}
-                        {% if salesman.market == market %}
-                            <li>
-                                {{ salesman.salesman_name }}
-                                <a href="{% url 'salesman_edit' salesman.pk %}">Edit</a> |
-                                <a href="{% url 'salesman_delete' salesman.pk %}">Delete</a>
-                            </li>
-                        {% endif %}
-                    {% empty %}
-                        <li>No salesmen available</li>
-                    {% endfor %}
-                </ul>
-            </ul>
+<div class="container">
+    <h2 class="text-center my-4">Markets</h2>
 
-            <ul>
-                <a>customers : </a>
-                <ul>
-                    {% for customer in additional_objects2 %}
-                    {% if customer.market == market %}
-                    <li>
-                        {{ customer.customer_name }}
-                        <a href="{% url 'customer_edit' customer.pk %}">Edit</a> |
-                        <a href="{% url 'customer_delete' customer.pk %}">Delete</a>
-                    </li>
-                    {% endif %}
-                    {% empty %}
-                        <li>No customers available</li>
-                    {% endfor %}
-                </ul>
-            </ul>
-        </li>
-    {% endfor %}
-</ul>
+    <div class="text-right mb-3">
+        <a href="{% url 'market_add' %}" class="btn btn-primary">Add Market</a>
+    </div>
+
+    <div class="list-group">
+        {% for market in object_list %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4>{{ market.market_name }} in {{ market.location }}</h4>
+                    <div>
+                        <a href="{% url 'market_edit' market.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'market_delete' market.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        <a href="{% url 'market_addsalesman' market.pk %}" class="btn btn-sm btn-outline-success">Hire Salesman</a>
+                        <a href="{% url 'market_addcustomer' market.pk %}" class="btn btn-sm btn-outline-info">Add Customer</a>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <h5>Salesmen:</h5>
+                    <ul class="list-group">
+                        {% for salesman in additional_objects %}
+                            {% if salesman.market == market %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ salesman.salesman_name }}
+                                    <div>
+                                        <a href="{% url 'salesman_edit' salesman.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        <a href="{% url 'salesman_delete' salesman.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% empty %}
+                            <li class="list-group-item">No salesmen available</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="mt-3">
+                    <h5>Customers:</h5>
+                    <ul class="list-group">
+                        {% for customer in additional_objects2 %}
+                            {% if customer.market == market %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ customer.customer_name }}
+                                    <div>
+                                        <a href="{% url 'customer_edit' customer.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        <a href="{% url 'customer_delete' customer.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% empty %}
+                            <li class="list-group-item">No customers available</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
